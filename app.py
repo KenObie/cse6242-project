@@ -16,11 +16,7 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'cse6242'
 
-
-
-
 fetch_data = DataLoader(host, user, passwd, database).push_data(geo_ids_file, geo_id_table, index=False)
-
 
 mysql = MySQL(app)
 
@@ -34,11 +30,13 @@ def hello_world():
 def geo_ids():
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM geo_ids")
+    field_names = [i[0] for i in cursor.description]
     data = cursor.fetchall()
     cursor.close()
     print(data)
     return {
-        'title': 'Geo Ids Simple API Example',
+        'title': 'GeoIds',
+        'columns': field_names,
         'data': data
     }
 
